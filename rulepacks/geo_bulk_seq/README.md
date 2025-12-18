@@ -13,11 +13,11 @@ This rulepack expects two tab-separated manifests:
 
 ## Quick test (from fairy-core)
 ```bash
-python -m fairy.cli.preflight preflight \
+fairy preflight \
   --rulepack /path/to/fairy-rulepacks-geo/rulepacks/geo_bulk_seq/v0_1_0.json \
-  --samples /path/to/fairy-rulepacks-geo/rulepacks/geo_bulk_seq/fixtures/samples.tsv \
-  --files   /path/to/fairy-rulepacks-geo/rulepacks/geo_bulk_seq/fixtures/files.tsv \
-  --out out/report.json
+  --samples  /path/to/fairy-rulepacks-geo/rulepacks/geo_bulk_seq/fixtures/samples.tsv \
+  --files    /path/to/fairy-rulepacks-geo/rulepacks/geo_bulk_seq/fixtures/files.tsv \
+  --out out/geo_bulk_seq_report.json
 ```
 
 ## Notes
