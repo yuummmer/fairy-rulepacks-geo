@@ -1,3 +1,9 @@
+## Quick look
+
+Preflight (GEO bulk-seq)
+
+![FAIRy GEO preflight example](docs/assets/preflight_cli.png)
+
 # FAIRy GEO Rulepacks (CC0)
 
 This repo contains community-shareable rulepacks for validating datasets intended for submission to GEO.
