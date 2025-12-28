@@ -1,39 +1,56 @@
+# FAIRy GEO Rulepacks (CC0)
+Community-shareable rulepacks for validating datasets intended for submission to **NCBI GEO** using the **FAIRy** engine.
+
 ## Quick look
 
-Preflight (GEO bulk-seq)
+**Preflight (GEO bulk-seq)** — generate a submission readiness report from the included fixtures.
 
 ![FAIRy GEO preflight example](docs/assets/preflight_cli.png)
 
-# FAIRy GEO Rulepacks (CC0)
-
-This repo contains community-shareable rulepacks for validating datasets intended for submission to GEO.
-
-## What this repo is
-
-This repository contains **CC0 rulepacks** for validating datasets intended for submission to **NCBI GEO** using the FAIRy engine.
-
-**Who it’s for:** researchers preparing GEO submissions, data stewards/curators, and tool builders who want reusable, repository-aligned validation rules.
-
-**What you get:** versioned rulepack JSON files + tiny public fixtures you can run locally to reproduce the checks and expected outcomes.
-
-**How it fits:** install FAIRy from `fairy-core`, then point `fairy preflight` at a rulepack in this repo.
-
-## Rulepacks
-- `rulepacks/geo_bulk_seq/` — GEO bulk RNA-seq style uploads (starter profile)
-
-## How to use
-1) Install FAIRy (from `fairy-core`)
-2) Clone this repo
-3) Run FAIRy pointing at the rulepack you want
-
-## Example (adjust flags to your CLI):
+## Quickstart (copy/paste)
+Run a complete **submission-readiness** check using the included tiny fixtures (`samples.tsv` + `files.tsv`).
 
 ```bash
-fairy validate --rulepack rulepacks/geo_bulk_seq --input path/to/your.csv
-```
-## Versioning
+# 1) Install FAIRy (engine)
+# See: https://github.com/yuummmer/fairy-core
+# (After install, you should have: fairy --help)
 
-Rulepacks version independently from `fairy-core`. See each rulepack folder for its version(s).
+# 2) From this repo:
+mkdir -p .tmp
+
+fairy preflight \
+  --rulepack rulepacks/geo_bulk_seq/v0_2_0.json \
+  --samples  rulepacks/geo_bulk_seq/fixtures/samples.tsv \
+  --files    rulepacks/geo_bulk_seq/fixtures/files.tsv \
+  --out      .tmp/geo_bulk_seq_report.json
+
+# Outputs:
+ls .tmp/
+less .tmp/geo_bulk_seq_report.md   # press q to quit (or open in your editor)
+
+cat .tmp/geo_bulk_seq_report.json | head
+```
+Why **preflight**? GEO submissions are a _package_, not a single file. Preflight checks the full submission object (multiple tables + consistency) and reports whether it is **submission ready**.
+
+## Run on your own GEO submission metadata
+Prepare two TSVs matching the fixture schemas:
+
+- `samples.tsv` — one row per biological sample
+- `files.tsv` — one row per data file, linked to samples
+
+```bash
+mkdir -p .tmp
+
+fairy preflight \
+  --rulepack rulepacks/geo_bulk_seq/v0_2_0.json \
+  --samples  /path/to/your/samples.tsv \
+  --files    /path/to/your/files.tsv \
+  --out      .tmp/geo_bulk_seq_report.json
+
+```
+## Rulepacks
+- `rulepacks/geo_bulk_seq/` — GEO bulk RNA-seq style uploads (starter profile)
+Rulepacks are versioned independently from fairy-core. Use the explicit version file (e.g. v0_2_0.json) for reproducible results.
 
 ## License
 

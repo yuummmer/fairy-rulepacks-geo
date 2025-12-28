@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install FAIRy (from fairy-core)
+        run: |
+          python -m pip install -U pip
+          pip install "git+https://github.com/yuummmer/fairy-core@main"
+
+      - name: Run GEO bulk-seq fixture smoke test
+        run: |
+          set -euxo pipefail
+          fairy --version || true
+          ls -la rulepacks/geo_bulk_seq
+          mkdir -p out
+
+          fairy preflight \
+            --rulepack rulepacks/geo_bulk_seq/v0_2_0.json \
+            --samples  rulepacks/geo_bulk_seq/fixtures/samples.tsv \
+            --files    rulepacks/geo_bulk_seq/fixtures/files.tsv \
+            --out      out/report.json
