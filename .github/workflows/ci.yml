@@ -23,9 +23,9 @@ jobs:
         run: |
           set -euxo pipefail
           fairy --version || true
-          ls -la rulepack/geo_bulk_seq
+          ls -la rulepacks/geo_bulk_seq
           mkdir -p out
-          
+
           fairy preflight \
             --rulepack rulepacks/geo_bulk_seq/v0_2_0.json \
             --samples  rulepacks/geo_bulk_seq/fixtures/samples.tsv \
