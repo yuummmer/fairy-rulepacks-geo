@@ -8,27 +8,45 @@ Community-shareable rulepacks for validating datasets intended for submission to
 ![FAIRy GEO preflight example](docs/assets/preflight_cli.png)
 
 ## Quickstart (copy/paste)
+
 Run a complete **submission-readiness** check using the included tiny fixtures (`samples.tsv` + `files.tsv`).
 
-```bash
-# 1) Install FAIRy (engine)
-# See: https://github.com/yuummmer/fairy-core
-# (After install, you should have: fairy --help)
+> Tip: This repo includes both a PASS fixture and an intentionally failing fixture so you can see what findings look like.
 
-# 2) From this repo:
+### 1) Install FAIRy (engine)
+FAIRy is currently installed from source (editable install):
+
+```bash
+# from wherever you keep projects
+git clone https://github.com/yuummmer/fairy-core.git
+cd fairy-core
+
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
+
+fairy --help
+
+# 2) From this FAIRy-rulepacks-geo repo:
 mkdir -p .tmp
 
+# PASS example (smoke test)
 fairy preflight \
   --rulepack rulepacks/geo_bulk_seq/v0_2_0.json \
   --samples  rulepacks/geo_bulk_seq/fixtures/samples.tsv \
   --files    rulepacks/geo_bulk_seq/fixtures/files.tsv \
-  --out      .tmp/geo_bulk_seq_report.json
+  --out      .tmp/geo_bulk_seq_pass.json
 
-# Outputs:
-ls .tmp/
-less .tmp/geo_bulk_seq_report.md   # press q to quit (or open in your editor)
+# FAIL/WARN example (recommended demo)
+fairy preflight \
+  --rulepack rulepacks/geo_bulk_seq/v0_2_0.json \
+  --samples  rulepacks/geo_bulk_seq/fixtures/samples_bad.tsv \
+  --files    rulepacks/geo_bulk_seq/fixtures/files.tsv \
+  --out      .tmp/geo_bulk_seq_fail.json
 
-cat .tmp/geo_bulk_seq_report.json | head
+# Inspect outputs
+ls -la .tmp/
+head -n 60 .tmp/geo_bulk_seq_fail.json
+
 ```
 Why **preflight**? GEO submissions are a _package_, not a single file. Preflight checks the full submission object (multiple tables + consistency) and reports whether it is **submission ready**.
 
